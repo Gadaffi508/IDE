@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IDE")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d772fce516b40a4d02408309ed77ca51ff72edaa")]
 [assembly: System.Reflection.AssemblyProductAttribute("IDE")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IDE")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

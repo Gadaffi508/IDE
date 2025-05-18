@@ -22,3 +22,4 @@ C:\Users\yusuf\source\repos\IDE\IDE\obj\Debug\net8.0-windows\IDE.csproj.Assembly
 C:\Users\yusuf\source\repos\IDE\IDE\obj\Debug\net8.0-windows\IDE.csproj.Up2Date
 C:\Users\yusuf\source\repos\IDE\IDE\obj\Debug\net8.0-windows\IDE_Content.g.cs
 C:\Users\yusuf\source\repos\IDE\IDE\bin\Debug\net8.0-windows\ICSharpCode.AvalonEdit.dll
+C:\Users\yusuf\source\repos\IDE\IDE\obj\Debug\net8.0-windows\IDE.sourcelink.json

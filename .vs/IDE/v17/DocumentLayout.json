@@ -1,18 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\yusuf\\source\\repos\\IDE\\",
+  "WorkspaceRootPath": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DC54DBD4-C619-469C-86A5-CEA06AF7D4D0}|IDE\\IDE.csproj|c:\\users\\yusuf\\source\\repos\\ide\\ide\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC54DBD4-C619-469C-86A5-CEA06AF7D4D0}|IDE\\IDE.csproj|solutionrelative:ide\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{98F96212-16EA-2551-35ED-E85A2FB34024}|IDE.csproj|c:\\users\\yusuf\\source\\repos\\ide\\ide\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98F96212-16EA-2551-35ED-E85A2FB34024}|IDE.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC54DBD4-C619-469C-86A5-CEA06AF7D4D0}|IDE\\IDE.csproj|c:\\users\\yusuf\\source\\repos\\ide\\ide\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{DC54DBD4-C619-469C-86A5-CEA06AF7D4D0}|IDE\\IDE.csproj|solutionrelative:ide\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{98F96212-16EA-2551-35ED-E85A2FB34024}|IDE.csproj|c:\\users\\yusuf\\source\\repos\\ide\\ide\\mainwindow.xaml||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{98F96212-16EA-2551-35ED-E85A2FB34024}|IDE.csproj|solutionrelative:mainwindow.xaml||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DC54DBD4-C619-469C-86A5-CEA06AF7D4D0}|IDE\\IDE.csproj|c:\\users\\yusuf\\source\\repos\\ide\\ide\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{DC54DBD4-C619-469C-86A5-CEA06AF7D4D0}|IDE\\IDE.csproj|solutionrelative:ide\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{98F96212-16EA-2551-35ED-E85A2FB34024}|IDE.csproj|c:\\users\\yusuf\\source\\repos\\ide\\ide\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{98F96212-16EA-2551-35ED-E85A2FB34024}|IDE.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,30 +22,18 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "App.xaml",
-              "DocumentMoniker": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\App.xaml",
-              "RelativeDocumentMoniker": "IDE\\App.xaml",
-              "ToolTip": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\App.xaml",
-              "RelativeToolTip": "IDE\\App.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-05-18T18:42:01.176Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "IDE\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "MainWindow.xaml",
               "ToolTip": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\MainWindow.xaml",
-              "RelativeToolTip": "IDE\\MainWindow.xaml",
+              "RelativeToolTip": "MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-05-15T11:43:18.226Z",
+              "WhenOpened": "2025-05-18T19:13:20.463Z",
               "EditorCaption": ""
             },
             {
@@ -53,12 +41,25 @@
               "DocumentIndex": 0,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "IDE\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "MainWindow.xaml.cs",
               "ToolTip": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\MainWindow.xaml.cs",
-              "RelativeToolTip": "IDE\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAFcAAAAAAAAAAAAswGYAAAAAAAAAAAAAAA==",
+              "RelativeToolTip": "MainWindow.xaml.cs",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAowGAAAABLAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-15T11:43:16.495Z",
+              "WhenOpened": "2025-05-18T19:13:19.327Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "MainWindow.xaml",
+              "ToolTip": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\MainWindow.xaml",
+              "RelativeToolTip": "MainWindow.xaml",
+              "ViewState": "AgIAACMAAAAAAAAAAAAkwEAAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-18T19:14:15.375Z",
               "EditorCaption": ""
             }
           ]
