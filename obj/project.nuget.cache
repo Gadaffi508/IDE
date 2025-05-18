@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "dgSpecHash": "Q7QulBwT//Y=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\IDE.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\yusuf\\.nuget\\packages\\avalonedit\\6.3.1.120\\avalonedit.6.3.1.120.nupkg.sha512",
+    "C:\\Users\\yusuf\\.nuget\\packages\\jacobslusser.scintillanet\\3.6.3\\jacobslusser.scintillanet.3.6.3.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'jacobslusser.ScintillaNET 3.6.3' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "jacobslusser.ScintillaNET",
+      "targetGraphs": [
+        "net8.0-windows7.0"
+      ]
+    }
+  ]
+}
