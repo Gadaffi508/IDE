@@ -1,4 +1,5 @@
 ﻿using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Highlighting;
 using Microsoft.CSharp;
 using System;
@@ -18,6 +19,7 @@ namespace IDE
     public partial class MainWindow : Window
     {
         private List<string> recentFiles = new List<string>();
+        private CompletionWindow completionWindow;
 
         public MainWindow()
         {
@@ -104,6 +106,8 @@ namespace IDE
                 Tag = path
             };
 
+            AttachEditorEvents(editor);
+
             editor.Text = File.ReadAllText(path);
 
             var tabItem = new TabItem
@@ -182,6 +186,61 @@ namespace IDE
                 LoadFile(selectedPath);
             }
         }
+
+        private void AttachEditorEvents(TextEditor editor)
+        {
+            editor.TextArea.TextEntered += (sender, e) =>
+            {
+                if (!char.IsLetter(e.Text[0]))
+                    return;
+
+                string currentWord = GetCurrentWord(editor);
+                if (string.IsNullOrWhiteSpace(currentWord)) return;
+
+                completionWindow = new CompletionWindow(editor.TextArea);
+
+                completionWindow.CompletionList.Background = new SolidColorBrush(Color.FromRgb(40, 40, 40));
+                completionWindow.CompletionList.Foreground = Brushes.White;
+                completionWindow.CompletionList.BorderThickness = new Thickness(0);
+                completionWindow.CompletionList.Padding = new Thickness(4);
+                completionWindow.CompletionList.FontFamily = new FontFamily("JetBrains Mono");
+                completionWindow.CompletionList.FontSize = 14;
+
+
+                var data = completionWindow.CompletionList.CompletionData;
+
+                string[] keywords = new string[] { "public", "private", "protected", "class", "void", "int", "float", "string", "bool", "using", "namespace", "return", "if", "else", "switch", "case", "new", "this", "base", "null", "true", "false" };
+
+                foreach (var keyword in keywords)
+                {
+                    if (keyword.StartsWith(currentWord))
+                        data.Add(new CompletionData(keyword));
+                }
+
+                if (data.Count > 0)
+                {
+                    completionWindow.Show();
+                    completionWindow.Closed += (o, args) => completionWindow = null;
+                }
+            };
+        }
+
+        private string GetCurrentWord(TextEditor editor)
+        {
+            var caret = editor.TextArea.Caret.Offset;
+            var document = editor.Document;
+            int startOffset = caret;
+
+            while (startOffset > 0)
+            {
+                char c = document.GetCharAt(startOffset - 1);
+                if (!char.IsLetter(c)) break;
+                startOffset--;
+            }
+
+            return document.GetText(startOffset, caret - startOffset);
+        }
+
 
         private void CloseWindow_Click(object sender, RoutedEventArgs e) => this.Close();
 
