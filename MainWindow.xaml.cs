@@ -22,7 +22,45 @@ namespace IDE
         public MainWindow()
         {
             InitializeComponent();
+            AddToolbarButtons();
         }
+
+        private void AddToolbarButtons()
+        {
+            var toolbar = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Margin = new Thickness(10, 0, 10, 0)
+            };
+
+            var saveBtn = new Button
+            {
+                Content = "💾 Kaydet",
+                Background = Brushes.DarkSlateGray,
+                Foreground = Brushes.White,
+                Padding = new Thickness(8, 2, 8, 2),
+                Margin = new Thickness(5)
+            };
+            saveBtn.Click += (s, e) => SaveCurrentFile();
+
+            var compileBtn = new Button
+            {
+                Content = "⚙️ Derle",
+                Background = Brushes.DarkOliveGreen,
+                Foreground = Brushes.White,
+                Padding = new Thickness(8, 2, 8, 2),
+                Margin = new Thickness(5)
+            };
+            compileBtn.Click += (s, e) => CompileCurrentFile();
+
+            toolbar.Children.Add(saveBtn);
+            toolbar.Children.Add(compileBtn);
+
+            Grid.SetRow(toolbar, 1); // Yeni eklenen buton bar satırı
+            MainGrid.Children.Add(toolbar);
+        }
+
 
         private void OpenFile_Click(object sender, RoutedEventArgs e)
         {
@@ -66,7 +104,7 @@ namespace IDE
                 Tag = path
             };
 
-            editor.Text = File.ReadAllText(path); // Load değil, Text kullan
+            editor.Text = File.ReadAllText(path);
 
             var tabItem = new TabItem
             {
@@ -77,7 +115,6 @@ namespace IDE
 
             EditorTabControl.Items.Add(tabItem);
             EditorTabControl.SelectedItem = tabItem;
-
 
             if (!recentFiles.Contains(path))
             {
@@ -128,7 +165,11 @@ namespace IDE
                 }
                 else
                 {
-                    MessageBox.Show("Derleme başarılı! DLL oluşturuldu:", results.PathToAssembly);
+                    string pluginsPath = Path.Combine(Directory.GetCurrentDirectory(), "UnityProject/Assets/Plugins");
+                    Directory.CreateDirectory(pluginsPath);
+                    string destPath = Path.Combine(pluginsPath, Path.GetFileName(results.PathToAssembly));
+                    File.Copy(results.PathToAssembly, destPath, true);
+                    MessageBox.Show("Derleme başarılı! DLL Unity'ye kopyalandı: " + destPath);
                 }
             }
         }

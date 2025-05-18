@@ -22,11 +22,16 @@
     </Window.Resources>
 
     <Border Background="#1e1e1e" CornerRadius="2">
-        <Grid>
+        <Grid x:Name="MainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
+                <!-- Üst bar -->
+                <RowDefinition Height="35"/>
+                <!-- Buton barı -->
                 <RowDefinition Height="*"/>
+                <!-- Ana içerik -->
             </Grid.RowDefinitions>
+
 
             <!-- Özel Üst Bar -->
             <Border Grid.Row="0" Background="#2d2d30" MouseLeftButtonDown="WindowDragMove">
@@ -46,7 +51,7 @@
             </Border>
 
             <!-- Ana İçerik -->
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="200"/>
                     <ColumnDefinition Width="*"/>
@@ -77,6 +82,7 @@
                             BorderThickness="0"
                             Margin="0"/>
             </Grid>
+
         </Grid>
     </Border>
 </Window>
