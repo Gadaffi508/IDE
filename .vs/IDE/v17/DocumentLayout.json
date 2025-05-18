@@ -33,8 +33,7 @@
               "ToolTip": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\MainWindow.xaml",
               "RelativeToolTip": "MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-05-18T19:13:20.463Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-18T19:13:20.463Z"
             },
             {
               "$type": "Document",
@@ -44,7 +43,7 @@
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
               "ToolTip": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\MainWindow.xaml.cs",
               "RelativeToolTip": "MainWindow.xaml.cs",
-              "ViewState": "AgIAAEYAAAAAAAAAAAAowGAAAABLAAAAAAAAAA==",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAowE8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-18T19:13:19.327Z",
               "EditorCaption": ""
@@ -59,8 +58,7 @@
               "RelativeToolTip": "MainWindow.xaml",
               "ViewState": "AgIAACMAAAAAAAAAAAAkwEAAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-05-18T19:14:15.375Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-18T19:14:15.375Z"
             }
           ]
         }
