@@ -17,7 +17,10 @@ Ducktastic Unity C# IDE, Unity projeleri için özelleştirilmiş, JetBrains tar
 
 ## 🖼️ Görünüm
 
-![Ekran Görüntüsü](docs/screenshot.png)
+![1](https://github.com/user-attachments/assets/94f6790f-6815-4127-8234-555444ae6c93)
+
+![2](https://github.com/user-attachments/assets/b422c81f-f1c8-4a2a-bc10-8f1754034888)
+
 
 ## 🧑‍💻 Kurulum
 
