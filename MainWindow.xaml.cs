@@ -18,53 +18,46 @@ namespace IDE
 {
     public partial class MainWindow : Window
     {
-        private List<string> recentFiles = new List<string>();
         private CompletionWindow completionWindow;
+        private bool isIDEInitialized = false;
 
         public MainWindow()
         {
             InitializeComponent();
-            AddToolbarButtons();
         }
 
-        private void AddToolbarButtons()
+        private void WindowDragMove(object sender, MouseButtonEventArgs e)
         {
-            var toolbar = new StackPanel
-            {
-                Orientation = Orientation.Horizontal,
-                HorizontalAlignment = HorizontalAlignment.Right,
-                Margin = new Thickness(10, 0, 10, 0)
-            };
+            if (e.LeftButton == MouseButtonState.Pressed)
+                this.DragMove();
+        }
 
-            var saveBtn = new Button
-            {
-                Content = "💾 Kaydet",
-                Background = Brushes.DarkSlateGray,
-                Foreground = Brushes.White,
-                Padding = new Thickness(8, 2, 8, 2),
-                Margin = new Thickness(5)
-            };
-            saveBtn.Click += (s, e) => SaveCurrentFile();
+        private void Close(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
 
-            var compileBtn = new Button
-            {
-                Content = "⚙️ Derle",
-                Background = Brushes.DarkOliveGreen,
-                Foreground = Brushes.White,
-                Padding = new Thickness(8, 2, 8, 2),
-                Margin = new Thickness(5)
-            };
-            compileBtn.Click += (s, e) => CompileCurrentFile();
+        private void Minimize(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
 
-            toolbar.Children.Add(saveBtn);
-            toolbar.Children.Add(compileBtn);
-
-            Grid.SetRow(toolbar, 1); // Yeni eklenen buton bar satırı
-            MainGrid.Children.Add(toolbar);
+        private void Maximize(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = (this.WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
         }
 
 
-        private void OpenFile_Click(object sender, RoutedEventArgs e)
+        private void InitIDE()
+        {
+            if (isIDEInitialized) return;
+
+            OpenGrid.Visibility = Visibility.Collapsed;
+            IDEGrid.Visibility = Visibility.Visible;
+            isIDEInitialized = true;
+        }
+
+        private void Menu_OpenFile_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new Microsoft.Win32.OpenFileDialog
             {
@@ -73,17 +66,27 @@ namespace IDE
 
             if (openFileDialog.ShowDialog() == true)
             {
+                InitIDE();
                 LoadFile(openFileDialog.FileName);
             }
         }
 
+        private void Menu_NewFile_Click(object sender, RoutedEventArgs e)
+        {
+            InitIDE();
+
+            string template = "using System;\n\nclass Program\n{\n    static void Main(string[] args)\n    {\n        Console.WriteLine(\"Hello, World!\");\n    }\n}";
+
+            string tempPath = Path.Combine(Path.GetTempPath(), $"NewFile_{DateTime.Now.Ticks}.cs");
+            File.WriteAllText(tempPath, template, Encoding.UTF8);
+            LoadFile(tempPath);
+        }
+
         private void LoadFile(string path)
         {
-            if (!File.Exists(path)) return;
-
             foreach (TabItem tab in EditorTabControl.Items)
             {
-                if (tab.Tag != null && tab.Tag.ToString() == path)
+                if (tab.Tag?.ToString() == path)
                 {
                     EditorTabControl.SelectedItem = tab;
                     return;
@@ -99,34 +102,37 @@ namespace IDE
                 Background = new SolidColorBrush(Color.FromRgb(25, 25, 25)),
                 Foreground = Brushes.White,
                 LineNumbersForeground = new SolidColorBrush(Color.FromRgb(100, 100, 100)),
-                BorderThickness = new Thickness(0),
                 Padding = new Thickness(5),
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
                 Tag = path
             };
-
             AttachEditorEvents(editor);
-
             editor.Text = File.ReadAllText(path);
 
             var tabItem = new TabItem
             {
                 Header = Path.GetFileName(path),
                 Content = editor,
-                Tag = path
+                Tag = path // Tooltip için dosya yolu
             };
 
             EditorTabControl.Items.Add(tabItem);
             EditorTabControl.SelectedItem = tabItem;
 
-            if (!recentFiles.Contains(path))
+            try
             {
-                recentFiles.Add(path);
-                RecentFilesList.Items.Add(path);
+                string directory = Path.GetDirectoryName(path);
+                var fileList = Directory.GetFiles(directory);
+                DirectoryExplorerPanel.ItemsSource = fileList;
             }
+            catch { }
+        }
 
-            RecentFilesList.SelectedItem = path;
+        private void DirectoryExplorerPanel_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (DirectoryExplorerPanel.SelectedItem is string filePath && File.Exists(filePath))
+                LoadFile(filePath);
         }
 
         private void SaveCurrentFile()
@@ -152,38 +158,27 @@ namespace IDE
                     OutputAssembly = Path.ChangeExtension(tempFile, ".dll"),
                     IncludeDebugInformation = true
                 };
-
                 parameters.ReferencedAssemblies.Add("System.dll");
                 parameters.ReferencedAssemblies.Add("UnityEngine.dll");
                 parameters.ReferencedAssemblies.Add("UnityEditor.dll");
 
-                CompilerResults results = provider.CompileAssemblyFromFile(parameters, tempFile);
+                var results = provider.CompileAssemblyFromFile(parameters, tempFile);
 
                 if (results.Errors.HasErrors)
                 {
-                    StringBuilder sb = new StringBuilder("Derleme Hataları:\n\n");
+                    var sb = new StringBuilder("Derleme Hataları:\n\n");
                     foreach (CompilerError error in results.Errors)
                         sb.AppendLine($"Satır {error.Line}: {error.ErrorText}");
-
-                    MessageBox.Show(sb.ToString(), "Derleme Hatası", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(sb.ToString());
                 }
                 else
                 {
-                    string pluginsPath = Path.Combine(Directory.GetCurrentDirectory(), "UnityProject/Assets/Plugins");
+                    string pluginsPath = Path.Combine("UnityProject/Assets/Plugins");
                     Directory.CreateDirectory(pluginsPath);
                     string destPath = Path.Combine(pluginsPath, Path.GetFileName(results.PathToAssembly));
                     File.Copy(results.PathToAssembly, destPath, true);
-                    MessageBox.Show("Derleme başarılı! DLL Unity'ye kopyalandı: " + destPath);
+                    MessageBox.Show("Başarıyla derlendi ve kopyalandı: " + destPath);
                 }
-            }
-        }
-
-        private void RecentFilesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (RecentFilesList.SelectedItem != null)
-            {
-                string selectedPath = RecentFilesList.SelectedItem.ToString();
-                LoadFile(selectedPath);
             }
         }
 
@@ -191,69 +186,38 @@ namespace IDE
         {
             editor.TextArea.TextEntered += (sender, e) =>
             {
-                if (!char.IsLetter(e.Text[0]))
-                    return;
-
+                if (!char.IsLetter(e.Text[0])) return;
                 string currentWord = GetCurrentWord(editor);
                 if (string.IsNullOrWhiteSpace(currentWord)) return;
 
                 completionWindow = new CompletionWindow(editor.TextArea);
-
                 completionWindow.CompletionList.Background = new SolidColorBrush(Color.FromRgb(40, 40, 40));
                 completionWindow.CompletionList.Foreground = Brushes.White;
-                completionWindow.CompletionList.BorderThickness = new Thickness(0);
-                completionWindow.CompletionList.Padding = new Thickness(4);
                 completionWindow.CompletionList.FontFamily = new FontFamily("JetBrains Mono");
                 completionWindow.CompletionList.FontSize = 14;
-
+                completionWindow.CompletionList.MaxHeight = 200;
 
                 var data = completionWindow.CompletionList.CompletionData;
+                string[] keywords = new string[] { "public", "private", "class", "void", "int", "float", "string", "static", "using", "namespace" };
+                foreach (var k in keywords)
+                    if (k.StartsWith(currentWord))
+                        data.Add(new CompletionData(k));
 
-                string[] keywords = new string[] { "public", "private", "protected", "class", "void", "int", "float", "string", "bool", "using", "namespace", "return", "if", "else", "switch", "case", "new", "this", "base", "null", "true", "false" };
-
-                foreach (var keyword in keywords)
-                {
-                    if (keyword.StartsWith(currentWord))
-                        data.Add(new CompletionData(keyword));
-                }
-
-                if (data.Count > 0)
-                {
-                    completionWindow.Show();
-                    completionWindow.Closed += (o, args) => completionWindow = null;
-                }
+                if (data.Count > 0) completionWindow.Show();
             };
         }
 
         private string GetCurrentWord(TextEditor editor)
         {
-            var caret = editor.TextArea.Caret.Offset;
+            int caret = editor.TextArea.Caret.Offset;
             var document = editor.Document;
             int startOffset = caret;
-
-            while (startOffset > 0)
-            {
-                char c = document.GetCharAt(startOffset - 1);
-                if (!char.IsLetter(c)) break;
+            while (startOffset > 0 && char.IsLetter(document.GetCharAt(startOffset - 1)))
                 startOffset--;
-            }
-
             return document.GetText(startOffset, caret - startOffset);
         }
 
-
-        private void CloseWindow_Click(object sender, RoutedEventArgs e) => this.Close();
-
-        private void MaximizeWindow_Click(object sender, RoutedEventArgs e) =>
-            this.WindowState = this.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
-
-        private void MinimizeWindow_Click(object sender, RoutedEventArgs e) =>
-            this.WindowState = WindowState.Minimized;
-
-        private void WindowDragMove(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-                this.DragMove();
-        }
+        private void Save_Click(object sender, RoutedEventArgs e) => SaveCurrentFile();
+        private void Compile_Click(object sender, RoutedEventArgs e) => CompileCurrentFile();
     }
 }
