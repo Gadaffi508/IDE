@@ -12,6 +12,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace IDE
@@ -25,6 +26,14 @@ namespace IDE
         {
             InitializeComponent();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Açık dosya var mı kontrolü (örneğin otomatik yükleme yapmıyorsan)
+            OpenGrid.Visibility = Visibility.Visible;
+            IDEGrid.Visibility = Visibility.Collapsed;
+        }
+
 
         private void WindowDragMove(object sender, MouseButtonEventArgs e)
         {
@@ -75,12 +84,21 @@ namespace IDE
         {
             InitIDE();
 
-            string template = "using System;\n\nclass Program\n{\n    static void Main(string[] args)\n    {\n        Console.WriteLine(\"Hello, World!\");\n    }\n}";
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog
+            {
+                Filter = "C# Dosyaları (*.cs)|*.cs",
+                Title = "Yeni C# Dosyası Oluştur"
+            };
 
-            string tempPath = Path.Combine(Path.GetTempPath(), $"NewFile_{DateTime.Now.Ticks}.cs");
-            File.WriteAllText(tempPath, template, Encoding.UTF8);
-            LoadFile(tempPath);
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string template = "using System;\n\nclass Program\n{\n    static void Main(string[] args)\n    {\n        Console.WriteLine(\"Hello, World!\");\n    }\n}";
+
+                File.WriteAllText(saveFileDialog.FileName, template, Encoding.UTF8);
+                LoadFile(saveFileDialog.FileName);
+            }
         }
+
 
         private void LoadFile(string path)
         {
@@ -108,31 +126,86 @@ namespace IDE
                 Tag = path
             };
             AttachEditorEvents(editor);
-            editor.Text = File.ReadAllText(path);
-
-            var tabItem = new TabItem
+            editor.Text = File.ReadAllText(path); var tabItem = new TabItem
             {
                 Header = Path.GetFileName(path),
                 Content = editor,
                 Tag = path // Tooltip için dosya yolu
             };
 
+            var headerPanel = new StackPanel { Orientation = Orientation.Horizontal };
+            headerPanel.Children.Add(new TextBlock
+            {
+                Text = System.IO.Path.GetFileName(path),
+                Margin = new Thickness(0, 0, 5, 0),
+                Foreground = Brushes.White
+            });
+            var closeBtn = new Button
+            {
+                Content = "×",
+                Width = 20,
+                Height = 20,
+                Background = Brushes.Transparent,
+                Foreground = Brushes.White,
+                Padding = new Thickness(0),
+                BorderThickness = new Thickness(0),
+                Cursor = Cursors.Hand
+            };
+            closeBtn.Click += (s, e) => EditorTabControl.Items.Remove(tabItem);
+            headerPanel.Children.Add(closeBtn);
+
+            tabItem.Header = headerPanel;
+
+
+
+
             EditorTabControl.Items.Add(tabItem);
             EditorTabControl.SelectedItem = tabItem;
 
-            try
+            UpdateFileTree(Path.GetDirectoryName(path));
+        }
+
+        private void UpdateFileTree(string rootPath)
+        {
+            if (!Directory.Exists(rootPath)) return;
+
+            TreeViewItem CreateNode(string path)
             {
-                string directory = Path.GetDirectoryName(path);
-                var fileList = Directory.GetFiles(directory);
-                DirectoryExplorerPanel.ItemsSource = fileList;
+                TreeViewItem item = new TreeViewItem
+                {
+                    Header = new TextBlock
+                    {
+                        Text = System.IO.Path.GetFileName(path),
+                        FontSize = 14,
+                        Margin = new Thickness(4),
+                        Foreground = Brushes.White
+                    },
+                    Tag = path
+                };
+
+                if (Directory.Exists(path))
+                {
+                    foreach (var dir in Directory.GetDirectories(path))
+                        item.Items.Add(CreateNode(dir));
+                    foreach (var file in Directory.GetFiles(path))
+                        item.Items.Add(new TreeViewItem { Header = System.IO.Path.GetFileName(file), Tag = file });
+                }
+                return item;
             }
-            catch { }
+
+            FileTree.Items.Clear();
+            FileTree.Items.Add(CreateNode(rootPath));
+        }
+
+        private void FileTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (FileTree.SelectedItem is TreeViewItem item && item.Tag is string path && File.Exists(path))
+                LoadFile(path);
         }
 
         private void DirectoryExplorerPanel_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (DirectoryExplorerPanel.SelectedItem is string filePath && File.Exists(filePath))
-                LoadFile(filePath);
+
         }
 
         private void SaveCurrentFile()
@@ -146,6 +219,9 @@ namespace IDE
 
         private void CompileCurrentFile()
         {
+            ErrorOutput.Text = "";
+            ConsoleOutput.Text = "";
+
             if (EditorTabControl.SelectedItem is TabItem tab && tab.Content is TextEditor editor)
             {
                 string tempFile = Path.GetTempFileName().Replace(".tmp", ".cs");
@@ -154,32 +230,64 @@ namespace IDE
                 var provider = new CSharpCodeProvider();
                 var parameters = new CompilerParameters
                 {
-                    GenerateExecutable = false,
-                    OutputAssembly = Path.ChangeExtension(tempFile, ".dll"),
-                    IncludeDebugInformation = true
+                    GenerateExecutable = true, // DLL değil EXE üret
+                    OutputAssembly = Path.ChangeExtension(tempFile, ".exe"),
+                    IncludeDebugInformation = true,
+                    CompilerOptions = "/t:exe"
                 };
+
                 parameters.ReferencedAssemblies.Add("System.dll");
-                parameters.ReferencedAssemblies.Add("UnityEngine.dll");
-                parameters.ReferencedAssemblies.Add("UnityEditor.dll");
+
+                string unityDllPath = @"C:\Program Files\Unity\Hub\Editor\6000.0.29f1\Editor\Data\Managed\UnityEngine";
+                foreach (var dll in Directory.GetFiles(unityDllPath, "*.dll"))
+                {
+                    parameters.ReferencedAssemblies.Add(dll);
+                }
 
                 var results = provider.CompileAssemblyFromFile(parameters, tempFile);
 
                 if (results.Errors.HasErrors)
                 {
-                    var sb = new StringBuilder("Derleme Hataları:\n\n");
+                    var sb = new StringBuilder();
                     foreach (CompilerError error in results.Errors)
                         sb.AppendLine($"Satır {error.Line}: {error.ErrorText}");
-                    MessageBox.Show(sb.ToString());
+                    ErrorOutput.Text = sb.ToString();
                 }
                 else
                 {
-                    string pluginsPath = Path.Combine("UnityProject/Assets/Plugins");
-                    Directory.CreateDirectory(pluginsPath);
-                    string destPath = Path.Combine(pluginsPath, Path.GetFileName(results.PathToAssembly));
-                    File.Copy(results.PathToAssembly, destPath, true);
-                    MessageBox.Show("Başarıyla derlendi ve kopyalandı: " + destPath);
+                    ErrorOutput.Text = "Derleme başarılı.";
+
+                    try
+                    {
+                        var assembly = Assembly.LoadFile(results.PathToAssembly);
+                        var entryPoint = assembly.EntryPoint;
+
+                        if (entryPoint != null)
+                        {
+                            using (var writer = new StringWriter())
+                            {
+                                Console.SetOut(writer);
+
+                                var parameters2 = entryPoint.GetParameters().Length == 0 ? null : new object[] { new string[0] };
+                                entryPoint.Invoke(null, parameters2);
+
+                                ConsoleOutput.Text = writer.ToString();
+                            }
+                        }
+                        else
+                        {
+                            ConsoleOutput.Text = "Main metodu (entryPoint) bulunamadı.";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ConsoleOutput.Text = $"Çalıştırma hatası: {ex.Message}";
+                    }
                 }
+
             }
+
+
         }
 
         private void AttachEditorEvents(TextEditor editor)
@@ -198,7 +306,15 @@ namespace IDE
                 completionWindow.CompletionList.MaxHeight = 200;
 
                 var data = completionWindow.CompletionList.CompletionData;
-                string[] keywords = new string[] { "public", "private", "class", "void", "int", "float", "string", "static", "using", "namespace" };
+                string[] keywords = new string[]
+{
+    "public", "private", "protected", "class", "interface", "enum", "struct",
+    "void", "int", "float", "double", "decimal", "string", "bool",
+    "static", "const", "readonly", "new", "override", "virtual",
+    "namespace", "using", "return", "if", "else", "switch", "case",
+    "break", "continue", "for", "foreach", "while", "do", "try", "catch", "finally",
+    "null", "true", "false", "this", "base", "get", "set"
+};
                 foreach (var k in keywords)
                     if (k.StartsWith(currentWord))
                         data.Add(new CompletionData(k));

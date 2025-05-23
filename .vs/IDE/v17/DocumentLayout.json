@@ -9,14 +9,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{98F96212-16EA-2551-35ED-E85A2FB34024}|IDE.csproj|c:\\users\\yusuf\\source\\repos\\ide\\ide\\mainwindow.xaml||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{98F96212-16EA-2551-35ED-E85A2FB34024}|IDE.csproj|solutionrelative:mainwindow.xaml||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{98F96212-16EA-2551-35ED-E85A2FB34024}|IDE.csproj|c:\\users\\yusuf\\source\\repos\\ide\\ide\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{98F96212-16EA-2551-35ED-E85A2FB34024}|IDE.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{98F96212-16EA-2551-35ED-E85A2FB34024}|IDE.csproj|c:\\users\\yusuf\\source\\repos\\ide\\ide\\completiondata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98F96212-16EA-2551-35ED-E85A2FB34024}|IDE.csproj|solutionrelative:completiondata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,33 +18,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CompletionData.cs",
-              "DocumentMoniker": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\CompletionData.cs",
-              "RelativeDocumentMoniker": "CompletionData.cs",
-              "ToolTip": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\CompletionData.cs",
-              "RelativeToolTip": "CompletionData.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAiwBIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-18T19:45:58.582Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "MainWindow.xaml",
-              "ToolTip": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\MainWindow.xaml",
-              "RelativeToolTip": "MainWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-05-18T19:13:20.463Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -61,7 +28,7 @@
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
               "ToolTip": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\MainWindow.xaml.cs",
               "RelativeToolTip": "MainWindow.xaml.cs",
-              "ViewState": "AgIAAG8AAAAAAAAAAAAiwHoAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAEkAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-18T19:13:19.327Z",
               "EditorCaption": ""
@@ -74,7 +41,7 @@
               "RelativeDocumentMoniker": "MainWindow.xaml",
               "ToolTip": "C:\\Users\\yusuf\\source\\repos\\IDE\\IDE\\MainWindow.xaml",
               "RelativeToolTip": "MainWindow.xaml",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAYwFoAAABGAAAAAAAAAA==",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAYwG0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-05-18T19:14:15.375Z",
               "EditorCaption": ""

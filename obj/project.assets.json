@@ -1,22 +1,53 @@
 {
   "version": 3,
   "targets": {
-    "net8.0-windows7.0": {
+    ".NETFramework,Version=v4.7.2": {
       "AvalonEdit/6.3.1.120": {
         "type": "package",
+        "frameworkAssemblies": [
+          "System.Windows.Forms"
+        ],
         "compile": {
-          "lib/net8.0-windows7.0/ICSharpCode.AvalonEdit.dll": {
+          "lib/net462/ICSharpCode.AvalonEdit.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0-windows7.0/ICSharpCode.AvalonEdit.dll": {
+          "lib/net462/ICSharpCode.AvalonEdit.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "jacobslusser.ScintillaNET/3.6.3": {
+        "type": "package",
+        "compile": {
+          "lib/net40/ScintillaNET.dll": {
             "related": ".xml"
           }
         },
-        "frameworkReferences": [
-          "Microsoft.WindowsDesktop.App"
-        ]
+        "runtime": {
+          "lib/net40/ScintillaNET.dll": {
+            "related": ".xml"
+          }
+        }
+      }
+    },
+    ".NETFramework,Version=v4.7.2/win-x86": {
+      "AvalonEdit/6.3.1.120": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Windows.Forms"
+        ],
+        "compile": {
+          "lib/net462/ICSharpCode.AvalonEdit.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/ICSharpCode.AvalonEdit.dll": {
+            "related": ".xml"
+          }
+        }
       },
       "jacobslusser.ScintillaNET/3.6.3": {
         "type": "package",
@@ -68,7 +99,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net8.0-windows7.0": [
+    ".NETFramework,Version=v4.7.2": [
       "AvalonEdit >= 6.3.1.120",
       "jacobslusser.ScintillaNET >= 3.6.3"
     ]
@@ -95,15 +126,15 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net8.0-windows"
+        "net472"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net8.0-windows7.0": {
-          "targetAlias": "net8.0-windows",
+        "net472": {
+          "targetAlias": "net472",
           "projectReferences": {}
         }
       },
@@ -120,8 +151,8 @@
       "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
-      "net8.0-windows7.0": {
-        "targetAlias": "net8.0-windows",
+      "net472": {
+        "targetAlias": "net472",
         "dependencies": {
           "AvalonEdit": {
             "target": "Package",
@@ -132,39 +163,13 @@
             "version": "[3.6.3, )"
           }
         },
-        "imports": [
-          "net461",
-          "net462",
-          "net47",
-          "net471",
-          "net472",
-          "net48",
-          "net481"
-        ],
-        "assetTargetFallback": true,
-        "warn": true,
-        "frameworkReferences": {
-          "Microsoft.NETCore.App": {
-            "privateAssets": "all"
-          },
-          "Microsoft.WindowsDesktop.App.WPF": {
-            "privateAssets": "none"
-          }
-        },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201\\RuntimeIdentifierGraph.json"
+      }
+    },
+    "runtimes": {
+      "win-x86": {
+        "#import": []
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'jacobslusser.ScintillaNET 3.6.3' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
-      "libraryId": "jacobslusser.ScintillaNET",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    }
-  ]
+  }
 }
