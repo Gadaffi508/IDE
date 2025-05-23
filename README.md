@@ -26,7 +26,7 @@ Ducktastic Unity C# IDE, Unity projeleri için özelleştirilmiş, JetBrains tar
 
 1. Bu projeyi klonlayın:
    ```bash
-   git clone https://github.com/kullaniciadi/UnityIDE.git
+   git clone https://github.com/kullaniciadi/UnityIDE.git](https://github.com/Gadaffi508/IDE
 
 2.Visual Studio 2022 ile açın.
 
